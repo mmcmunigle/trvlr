@@ -1,0 +1,4 @@
+.navlink[data-active] {
+        border-bottom: 2px solid var(--mantine-color-blue-8);
+        /* color: var(--mantine-color-dark-4); */
+}

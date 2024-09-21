@@ -1,0 +1,19 @@
+import { Anchor, Text, Title } from '@mantine/core';
+import classes from './Welcome.module.css';
+
+export function Welcome() {
+  return (
+    <>
+      <Title className={classes.title} ta="center" mt={100}>
+        Welcome to{' '}
+        <Text inherit variant="gradient" component="span" gradient={{ from: 'blue', to: 'green' }}>
+          TRVLR
+        </Text>
+      </Title>
+      <Text c="dimmed" ta="center" size="lg" maw={580} mx="auto" mt="xl">
+        Effortlessly plan and organize your dream trip with a smart, easy-to-use travel planner that
+        helps you manage every detail of your journey.
+      </Text>
+    </>
+  );
+}
