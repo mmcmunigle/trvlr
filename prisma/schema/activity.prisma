@@ -1,0 +1,25 @@
+model Activity {
+    id            Int          @id @default(autoincrement())
+    title         String       @db.VarChar(255)
+    description   String?      @db.Text
+    link          String?      @db.VarChar(1023)
+    notes         String?      @db.Text
+    type          ActivityType @default(ACTIVITY)
+    latitude      Decimal?
+    longitude     Decimal?
+    startTime     DateTime?
+    endTime       DateTime?
+    allDay        Boolean      @default(false)
+    createdAt     DateTime     @default(now())
+    updatedAt     DateTime     @updatedAt
+    Destination   Destination? @relation(fields: [destinationId], references: [id])
+    destinationId Int?
+}
+
+enum ActivityType {
+    TRAVEL
+    FOOD
+    ACTIVITY
+    TOUR
+    HISTORICAL
+}

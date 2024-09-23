@@ -1,0 +1,12 @@
+.navLink {
+    padding: 16px;
+}
+
+/* .navLink:hover {
+    background-color: var(--mantine-color-gray-2);
+} */
+
+.activeLink {
+    border-bottom: 2px solid var(--mantine-color-blue-8);
+    background-color: rgba(245, 245, 245, 0.7);
+}

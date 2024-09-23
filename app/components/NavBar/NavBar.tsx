@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { IconMap } from '@tabler/icons-react';
+import classnames from 'classnames';
 import { useSession } from 'next-auth/react';
 import {
   Avatar,
@@ -43,22 +44,20 @@ const NavLinks = () => {
   const currentPath = usePathname();
 
   const links = [
-    { label: 'Planner', href: '/' },
+    { label: 'Planner', href: '/planner' },
     { label: 'Dashboard', href: '/dashboard' },
   ];
 
   return (
     <Flex>
       {links.map((link) => (
-        <NavLink
-          className={classes.navlink}
-          active={currentPath === link.href}
-          p="md"
-          key={link.href}
-          label={link.label}
+        <Link
           href={link.href}
-          variant="light"
-        />
+          key={link.href}
+          className={`${classes.navLink} ${link.href === currentPath ? classes.activeLink : ''}`}
+        >
+          {link.label}
+        </Link>
       ))}
     </Flex>
   );

@@ -1,0 +1,17 @@
+model Trip {
+    id           Int           @id @default(autoincrement())
+    title        String        @db.VarChar(255)
+    country      String        @db.VarChar(255)
+    startDate    DateTime?
+    endDate      DateTime?
+    status       TripStatus    @default(PLAN)
+    createdAt    DateTime      @default(now())
+    updatedAt    DateTime      @updatedAt
+    destinations Destination[]
+}
+
+enum TripStatus {
+    PLAN
+    READY
+    COMPLETED
+}

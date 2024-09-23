@@ -1,11 +1,11 @@
 import '@mantine/core/styles.css';
 
-import React from 'react';
-import { ColorSchemeScript, Container, MantineProvider } from '@mantine/core';
+import { ColorSchemeScript, MantineProvider } from '@mantine/core';
 import { theme } from '../theme';
 import AuthProvider from './auth/Provider';
-import NavBar from './NavBar/NavBar';
+import NavBar from './components/NavBar/NavBar';
 
+import 'mapbox-gl/dist/mapbox-gl.css';
 import './globals.css';
 
 export const metadata = {
@@ -28,7 +28,7 @@ export default function RootLayout({ children }: { children: any }) {
         <AuthProvider>
           <MantineProvider theme={theme}>
             <NavBar />
-            <Container>{children}</Container>
+            {children}
           </MantineProvider>
         </AuthProvider>
       </body>
