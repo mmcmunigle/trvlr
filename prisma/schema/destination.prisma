@@ -4,6 +4,7 @@ model Destination {
     description String?    @db.Text
     days        Int
     stopNumber  Int
+    color       String?    @db.VarChar(255)
     startDate   DateTime?
     endDate     DateTime?
     latitude    Decimal?

@@ -1,19 +1,63 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { DateSelectArg, EventChangeArg, EventClickArg, EventContentArg } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
+import { Activity, ActivityType } from '@prisma/client';
+import axios from 'axios';
 import { Box, Flex } from '@mantine/core';
+import { TripWithDestinations } from '@/app/types/TripWithDestinations';
 // import { observer } from 'mobx-react-lite';
 // import { eventStoreContext } from './event-store';
 import { Sidebar } from './SideBar';
 import classes from './Calendar.module.css';
 
-export const Calendar = () => {
+interface Props {
+  trip: TripWithDestinations;
+}
+
+const eventColors = {
+  [ActivityType.TRAVEL]: 'var(--mantine-color-orange-7)',
+  [ActivityType.ACTIVITY]: 'var(--mantine-color-blue-7)',
+  [ActivityType.FOOD]: 'var(--mantine-color-orange-7)',
+  [ActivityType.HISTORICAL]: 'var(--mantine-color-blue-7)',
+  [ActivityType.TOUR]: 'var(--mantine-color-red-7)',
+};
+
+export const Calendar = ({ trip }: Props) => {
   // const eventStore = useContext(eventStoreContext);
+  const [events, setEvents] = useState<object[]>();
+
+  useEffect(() => {
+    const destEvents = trip.destinations.map((dest) => {
+      return {
+        id: dest.id,
+        title: dest.name,
+        start: dest.startDate,
+        end: dest.endDate,
+        backgroundColor: dest.color,
+        allDay: true,
+      };
+    });
+
+    trip.destinations.forEach((dest) =>
+      dest.activities.forEach((activity) =>
+        destEvents.push({
+          id: activity.id,
+          title: activity.title,
+          start: activity.start,
+          end: activity.end,
+          backgroundColor: eventColors[activity.type],
+          allDay: false,
+        })
+      )
+    );
+
+    setEvents(destEvents);
+  }, [trip]);
 
   function handleEventClick(clickInfo: EventClickArg) {
     if (confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
@@ -29,21 +73,23 @@ export const Calendar = () => {
   }
 
   function handleEventChange(changeInfo: EventChangeArg) {
+    axios.patch(`/api/activity/${changeInfo.event.id}`, changeInfo.event);
     // eventStore.changeEvent(changeInfo);
   }
 
   return (
-    <Flex mih="100%" fz="14px">
-      <Sidebar />
+    <Flex h="100%" fz="14px">
+      <Sidebar trip={trip} />
       <Box className={classes.calendarMain}>
         <FullCalendar
+          height="100%"
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
           headerToolbar={{
             left: 'prev,next today',
             center: 'title',
             right: 'dayGridMonth,timeGridWeek,timeGridDay',
           }}
-          initialView="dayGridMonth"
+          initialView="timeGridWeek"
           editable={true}
           selectable={true}
           selectMirror={true}
@@ -53,7 +99,7 @@ export const Calendar = () => {
            * slice() is used to achieve MobX observability on eventStore.events
            * https://mobx.js.org/best/react.html#incorrect-use-an-observable-but-without-accessing-any-of-its-properties
            */
-          // events={eventStore.events.slice()} //
+          events={events} //
           select={handleDateSelect}
           eventContent={renderEventContent}
           eventClick={handleEventClick}

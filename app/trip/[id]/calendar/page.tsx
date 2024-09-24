@@ -25,7 +25,7 @@ const CalendarPage = async ({ params }: Props) => {
     (destination) => (activities = activities.concat(destination.activities))
   );
 
-  return <Calendar />;
+  return <Calendar trip={trip} />;
 };
 
 export default CalendarPage;

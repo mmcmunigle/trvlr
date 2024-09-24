@@ -6,6 +6,7 @@ import AuthProvider from './auth/Provider';
 import NavBar from './components/NavBar/NavBar';
 
 import 'mapbox-gl/dist/mapbox-gl.css';
+import '@mantine/dates/styles.css';
 import './globals.css';
 
 export const metadata = {

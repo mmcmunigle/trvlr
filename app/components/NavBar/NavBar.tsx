@@ -3,38 +3,23 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { IconMap } from '@tabler/icons-react';
-import classnames from 'classnames';
 import { useSession } from 'next-auth/react';
-import {
-  Avatar,
-  Box,
-  Button,
-  Container,
-  Flex,
-  Group,
-  Menu,
-  NavLink,
-  Paper,
-  Skeleton,
-  Text,
-} from '@mantine/core';
+import { Avatar, Box, Button, Flex, Group, Menu, Paper, Skeleton, Text } from '@mantine/core';
 import classes from './NavBar.module.css';
 
 const NavBar = () => {
   return (
     <nav>
       <Paper shadow="md">
-        <Container size="xl">
-          <Group justify="space-between">
-            <Group>
-              <Link href="/">
-                <IconMap size={30} />
-              </Link>
-              <NavLinks />
-            </Group>
-            <AuthStatus />
+        <Group justify="space-between" mx="xl">
+          <Group>
+            <Link href="/">
+              <IconMap size={30} />
+            </Link>
+            <NavLinks />
           </Group>
-        </Container>
+          <AuthStatus />
+        </Group>
       </Paper>
     </nav>
   );
