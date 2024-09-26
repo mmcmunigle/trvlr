@@ -18,27 +18,25 @@ export async function PATCH(request: NextRequest, { params }: Props) {
   //     return NextResponse.json(validation.error.format(), { status: 400 });
   //   }
 
-  const { title, type, description, start, end, allDay, onCalendar, rank } = body;
+  const { title, type, description, start, end, onCalendar } = body;
 
-  const activity = await prisma.activity.findUnique({
+  const lodging = await prisma.lodging.findUnique({
     where: { id: parseInt(params.id) },
   });
 
-  if (!activity) {
-    return NextResponse.json({ error: 'Invalid Activity' }, { status: 404 });
+  if (!lodging) {
+    return NextResponse.json({ error: 'Invalid lodging' }, { status: 404 });
   }
 
-  const updatedIssue = await prisma.activity.update({
-    where: { id: activity.id },
+  const updatedIssue = await prisma.lodging.update({
+    where: { id: lodging.id },
     data: {
-      title: title,
+      name: title,
       type: type,
       description: description,
       start: start,
       end: end,
-      allDay: allDay,
       onCalendar: onCalendar,
-      rank: rank,
     },
   });
 
@@ -51,16 +49,16 @@ export async function DELETE(request: NextRequest, { params }: Props) {
   //     return NextResponse.json({}, { status: 401 });
   //   }
 
-  const activity = await prisma.activity.findUnique({
+  const lodging = await prisma.lodging.findUnique({
     where: { id: parseInt(params.id) },
   });
 
-  if (!activity) {
-    return NextResponse.json({ error: 'Invalid Activity' }, { status: 404 });
+  if (!lodging) {
+    return NextResponse.json({ error: 'Invalid lodging' }, { status: 404 });
   }
 
-  await prisma.activity.delete({
-    where: { id: activity.id },
+  await prisma.lodging.delete({
+    where: { id: lodging.id },
   });
 
   return NextResponse.json({});

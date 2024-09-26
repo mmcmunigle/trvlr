@@ -1,7 +1,9 @@
+import { useRouter } from 'next/navigation';
 import { EventInput, formatDate } from '@fullcalendar/core';
-import { Accordion, Box, Card, DefaultMantineColor, Flex, Stack, Text, Title } from '@mantine/core';
-import { DatePickerInput } from '@mantine/dates';
+import axios from 'axios';
+import { Accordion, Box, DefaultMantineColor, Stack, Text, Title } from '@mantine/core';
 import { TripWithDestinations } from '@/app/types/TripWithDestinations';
+import EventList from './EventList';
 import classes from './SideBar.module.css';
 
 interface Props {
@@ -9,8 +11,7 @@ interface Props {
 }
 
 export const Sidebar = ({ trip }: Props) => {
-  //   const eventStore = useContext(eventStoreContext);
-
+  const router = useRouter();
   function renderSidebarEvent(event: EventInput) {
     return (
       <li key={event.id}>
@@ -30,24 +31,10 @@ export const Sidebar = ({ trip }: Props) => {
   return (
     <Box className={classes.sidebar}>
       <Box px="2em" py="1rem">
-        <Title order={5}>Trip Details</Title>
-        <Stack gap="md" mt="md">
-          <Text>{trip.country}</Text>
-          <DatePickerInput
-            type="default"
-            label="Start Date"
-            placeholder="Pick Start Date"
-            value={trip.startDate}
-            // onChange={setValue}
-          />
-          <DatePickerInput
-            type="default"
-            label="End Date"
-            placeholder="Pick End Date"
-            value={trip.endDate}
-            // onChange={setValue}
-          />
-        </Stack>
+        <Title order={2}>{trip.country}</Title>
+        <Text size="sm">
+          {trip.startDate?.toDateString()} - {trip.endDate?.toDateString()}
+        </Text>
       </Box>
       <Box px="2em" py="1rem">
         <Title order={5}>Destinations</Title>
@@ -64,11 +51,7 @@ export const Sidebar = ({ trip }: Props) => {
                   {dest.name}
                 </Accordion.Control>
                 <Accordion.Panel>
-                  {dest.activities.map((activity) => (
-                    <Flex gap="sm" key={activity.id}>
-                      <Card p={1}>{activity.title}</Card>
-                    </Flex>
-                  ))}
+                  <EventList destination={dest} />
                 </Accordion.Panel>
               </Accordion.Item>
               // <Card key={dest.name} p="xs" bg={dest.color!} c="white">

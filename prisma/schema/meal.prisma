@@ -1,17 +1,17 @@
-model Activity {
+model Meal {
     id            Int          @id @default(autoincrement())
     title         String       @db.VarChar(255)
     description   String?      @db.Text
     link          String?      @db.VarChar(1023)
     notes         String?      @db.Text
-    type          ActivityType @default(ACTIVITY)
+    type          MealType     @default(OTHER)
     latitude      Decimal?
     longitude     Decimal?
     start         DateTime?
     end           DateTime?
     allDay        Boolean      @default(false)
     onCalendar    Boolean      @default(true)
-    rank          Int          @default(1)
+    rank          Int
     placeId       String?      @db.VarChar(511)
     createdAt     DateTime     @default(now())
     updatedAt     DateTime     @updatedAt
@@ -19,9 +19,12 @@ model Activity {
     destinationId Int?
 }
 
-enum ActivityType {
-    TRAVEL
-    ACTIVITY
-    TOUR
-    HISTORICAL
+enum MealType {
+    TAPAS
+    PUB
+    SEAFOOD
+    PASTA
+    BAR
+    COFFEE_SHOP
+    OTHER
 }

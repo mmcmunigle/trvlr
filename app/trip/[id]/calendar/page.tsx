@@ -13,7 +13,8 @@ const CalendarPage = async ({ params }: Props) => {
     where: { id: parseInt(params.id) },
     include: {
       destinations: {
-        include: { activities: true },
+        orderBy: [{ startDate: 'asc' }],
+        include: { activities: true, meals: true, lodgings: true },
       },
     },
   });

@@ -18,18 +18,18 @@ export async function PATCH(request: NextRequest, { params }: Props) {
   //     return NextResponse.json(validation.error.format(), { status: 400 });
   //   }
 
-  const { title, type, description, start, end, allDay, onCalendar, rank } = body;
+  const { title, type, description, start, end, allDay, onCalendar } = body;
 
-  const activity = await prisma.activity.findUnique({
+  const meal = await prisma.meal.findUnique({
     where: { id: parseInt(params.id) },
   });
 
-  if (!activity) {
-    return NextResponse.json({ error: 'Invalid Activity' }, { status: 404 });
+  if (!meal) {
+    return NextResponse.json({ error: 'Invalid Meal' }, { status: 404 });
   }
 
-  const updatedIssue = await prisma.activity.update({
-    where: { id: activity.id },
+  const updatedIssue = await prisma.meal.update({
+    where: { id: meal.id },
     data: {
       title: title,
       type: type,
@@ -38,7 +38,6 @@ export async function PATCH(request: NextRequest, { params }: Props) {
       end: end,
       allDay: allDay,
       onCalendar: onCalendar,
-      rank: rank,
     },
   });
 
@@ -51,16 +50,16 @@ export async function DELETE(request: NextRequest, { params }: Props) {
   //     return NextResponse.json({}, { status: 401 });
   //   }
 
-  const activity = await prisma.activity.findUnique({
+  const meal = await prisma.meal.findUnique({
     where: { id: parseInt(params.id) },
   });
 
-  if (!activity) {
-    return NextResponse.json({ error: 'Invalid Activity' }, { status: 404 });
+  if (!meal) {
+    return NextResponse.json({ error: 'Invalid meal' }, { status: 404 });
   }
 
-  await prisma.activity.delete({
-    where: { id: activity.id },
+  await prisma.meal.delete({
+    where: { id: meal.id },
   });
 
   return NextResponse.json({});

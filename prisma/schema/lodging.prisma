@@ -1,17 +1,17 @@
-model Activity {
+model Lodging {
     id            Int          @id @default(autoincrement())
-    title         String       @db.VarChar(255)
+    name          String       @db.VarChar(255)
     description   String?      @db.Text
     link          String?      @db.VarChar(1023)
     notes         String?      @db.Text
-    type          ActivityType @default(ACTIVITY)
+    type          LODGING_TYPE @default(HOTEL)
     latitude      Decimal?
     longitude     Decimal?
     start         DateTime?
     end           DateTime?
-    allDay        Boolean      @default(false)
+    days          Int
     onCalendar    Boolean      @default(true)
-    rank          Int          @default(1)
+    rank          Int
     placeId       String?      @db.VarChar(511)
     createdAt     DateTime     @default(now())
     updatedAt     DateTime     @updatedAt
@@ -19,9 +19,10 @@ model Activity {
     destinationId Int?
 }
 
-enum ActivityType {
-    TRAVEL
-    ACTIVITY
-    TOUR
-    HISTORICAL
+enum LODGING_TYPE {
+    AIRBNB
+    BOTIQUE
+    HOTEL
+    ALL_INCLUSIVE
+    HOSTEL
 }

@@ -14,4 +14,6 @@ model Destination {
     Trip        Trip?      @relation(fields: [tripId], references: [id])
     tripId      Int?
     activities  Activity[]
+    lodgings    Lodging[]
+    meals       Meal[]
 }
