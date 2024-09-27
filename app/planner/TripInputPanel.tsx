@@ -1,11 +1,12 @@
 import React from 'react';
-import { Card, Center, Paper } from '@mantine/core';
+import { Box, Card, Center, Paper } from '@mantine/core';
+import PlanStepper from './PlanStepper';
 
 const TripInputPanel = () => {
   return (
-    <Paper shadow="md" w="100%">
-      <Center h="calc(100vh - 100px)">Where to?</Center>
-    </Paper>
+    <Center h="100%">
+      <Box>Where To?</Box>
+    </Center>
   );
 };
 

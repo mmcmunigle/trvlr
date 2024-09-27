@@ -28,7 +28,7 @@ export default function RootLayout({ children }: { children: any }) {
       <body>
         <AuthProvider>
           <MantineProvider theme={theme}>
-            <NavBar />
+            {/* <NavBar /> */}
             {children}
           </MantineProvider>
         </AuthProvider>

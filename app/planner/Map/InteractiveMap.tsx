@@ -1,8 +1,6 @@
 import React from 'react';
 import Map from 'react-map-gl';
 
-// import 'mapbox-gl/dist/mapbox-gl.css';
-
 const InteractiveMap = () => {
   return (
     <Map
@@ -13,8 +11,7 @@ const InteractiveMap = () => {
         latitude: 33.4,
         longitude: -92,
       }}
-      // projection={{ name: "globe" }}
-      style={{ width: '100%', height: '350px', zIndex: 0 }}
+      style={{ width: '100%', minHeight: '50%', zIndex: 0 }}
       mapStyle="mapbox://styles/mapbox/standard"
     ></Map>
   );

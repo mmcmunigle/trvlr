@@ -35,18 +35,10 @@ const TripOverview = () => {
     },
   ];
   return (
-    <Card shadow="sm" radius="md" h="calc(100vh - 100px)">
-      <Card.Section>
-        <Image
-          src="https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/images/bg-8.png"
-          height={120}
-          alt="Norway"
-        />
-      </Card.Section>
-
+    <Box mih="50%">
       <Group justify="space-between" mt="md" mb="xs">
         <Text fw={500}>Adventures in Spain</Text>
-        <Badge color="orange">In Progress</Badge>
+        {/* <Badge color="orange">In Progress</Badge> */}
       </Group>
 
       <Tabs defaultValue="results">
@@ -77,49 +69,7 @@ const TripOverview = () => {
           <InteractiveMap />
         </Tabs.Panel>
       </Tabs>
-
-      {/* <Stack gap="xs">
-        <Card radius="md" shadow="sm" p="xs" bg="gray.1">
-          <Group justify="space-between">
-            Barcelona
-            <Group>
-              <Text size="sm">Oct 11 - 13th</Text>
-              <Burger size="sm" />
-            </Group>
-          </Group>
-        </Card>
-
-        <Card radius="md" shadow="sm" p="xs" bg="gray.1">
-          <Group justify="space-between">
-            Stiges{' '}
-            <Group>
-              <Text size="sm">Oct 11 - 13th</Text>
-              <Burger size="sm" />
-            </Group>
-          </Group>
-        </Card>
-
-        <Card radius="md" shadow="sm" p="xs" bg="gray.1">
-          <Group justify="space-between">
-            Mallorca{' '}
-            <Group>
-              <Text size="sm">Oct 11 - 13th</Text>
-              <Burger size="sm" />
-            </Group>
-          </Group>
-        </Card>
-
-        <Card radius="md" shadow="sm" p="xs" bg="gray.1">
-          <Group justify="space-between">
-            Mallorca{' '}
-            <Group>
-              <Text size="sm">Oct 11 - 13th</Text>
-              <Burger size="sm" />
-            </Group>
-          </Group>
-        </Card>
-      </Stack> */}
-    </Card>
+    </Box>
   );
 };
 
