@@ -1,23 +1,23 @@
-import { useState } from 'react';
-import { Box, Button, Group, Paper, Stack, Stepper } from '@mantine/core';
+'use client';
+
+import { Box, Paper, Stepper } from '@mantine/core';
+import useStepperStore from '../state-management/stepper-store';
 
 const PlanStepper = () => {
-  const [active, setActive] = useState(1);
-  const nextStep = () => setActive((current) => (current < 3 ? current + 1 : current));
-  const prevStep = () => setActive((current) => (current > 0 ? current - 1 : current));
+  const setStep = useStepperStore((store) => store.setStep);
+  const step = useStepperStore((store) => store.step);
+
+  // const nextStep = () => setActive((current) => (current < 3 ? current + 1 : current));
+  // const prevStep = () => setActive((current) => (current > 0 ? current - 1 : current));
 
   const onStepClick = (step: number) => {
-    setActive(step);
+    setStep(step);
   };
 
   return (
     <Paper shadow="xl" p="lg" h="80px">
       <Box>
-        <Stepper
-          color="var(--mantine-color-persian-green-5)"
-          active={active}
-          onStepClick={onStepClick}
-        >
+        <Stepper active={step} onStepClick={onStepClick}>
           <Stepper.Step label="Trip Details" description="When and where" />
           <Stepper.Step label="Preferences" description="Travel style" />
           <Stepper.Step label="Destinations" description="Choose cities" />

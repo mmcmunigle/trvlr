@@ -1,34 +1,29 @@
 'use client';
 
-import React from 'react';
-import { Box, Card, Divider, Grid, Stack } from '@mantine/core';
-import InteractiveMap from './Map/InteractiveMap';
-import PlanStepper from './PlanStepper';
+import { Box, Card, Grid, Stack } from '@mantine/core';
+import InteractiveMap from './map/InteractiveMap';
+import TripOverview from './summary/TripOverview';
 import TripInputPanel from './TripInputPanel';
-import TripOverview from './TripOverview';
 
 const TripPlannerContainer = () => {
   return (
-    <Stack h="100vh" gap={0}>
-      <PlanStepper />
-      <Grid gutter={0} h="calc(100% - 80px)">
-        <Grid.Col span={{ base: 12, md: 6 }}>
-          <TripInputPanel />
-        </Grid.Col>
-        <Grid.Col span={{ base: 12, md: 6 }}>
-          <Card shadow="sm" h="calc(100% - 20px)" m="10px">
-            <Stack justify="space-between" h="100%" gap="md">
-              <Box h="40%">
-                <InteractiveMap />
-              </Box>
-              <Box h="60%">
-                <TripOverview />
-              </Box>
-            </Stack>
-          </Card>
-        </Grid.Col>
-      </Grid>
-    </Stack>
+    <Grid gutter={0} h="calc(100% - 80px)">
+      <Grid.Col span={{ base: 12, md: 7 }}>
+        <TripInputPanel />
+      </Grid.Col>
+      <Grid.Col span={{ base: 12, md: 5 }}>
+        <Card shadow="sm" h="calc(100% - 20px)" m="10px" radius="lg">
+          <Stack justify="space-between" h="100%" gap={0}>
+            <Box h="50%">
+              <InteractiveMap />
+            </Box>
+            <Box h="50%">
+              <TripOverview />
+            </Box>
+          </Stack>
+        </Card>
+      </Grid.Col>
+    </Grid>
   );
 };
 

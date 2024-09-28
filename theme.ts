@@ -1,6 +1,6 @@
 'use client';
 
-import { createTheme } from '@mantine/core';
+import { createTheme, virtualColor } from '@mantine/core';
 
 export const theme = createTheme({
   /* Put your mantine theme override here */
@@ -122,5 +122,11 @@ export const theme = createTheme({
       '#102a43',
       '#071e28',
     ],
+    primary: virtualColor({
+      name: 'primary',
+      dark: 'cyan',
+      light: 'persian-green',
+    }),
   },
+  primaryColor: 'persian-green',
 });
