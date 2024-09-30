@@ -1,4 +1,10 @@
-# Mantine Next.js template
+## Quick Run Instructions
+
+- copy `.env.sample` to `.env` and fill out env variables
+- `docker-compose up -d` - run postgres docker container
+- `npm i` - install dependencies
+- `npm run dev` - start dev server
+
 
 This is a template for [Next.js](https://nextjs.org/) app router + [Mantine](https://mantine.dev/).
 If you want to use pages router instead, see [next-pages-template](https://github.com/mantinedev/next-pages-template).
