@@ -7,7 +7,7 @@ interface TripStore {
 }
 
 const useTripStore = create<TripStore>((set) => ({
-  country: null,
+  country: 'Spain',
   setCountry: (country: CountryName) => set(() => ({ country })),
 }));
 

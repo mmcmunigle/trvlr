@@ -1,0 +1,18 @@
+model City {
+    id          Int         @id @default(autoincrement())
+    name        String      @db.VarChar(255)
+    country     String?     @db.VarChar(255)
+    description String?     @db.Text
+    latitude    Decimal?
+    longitude   Decimal?
+    createdAt   DateTime    @default(now())
+    updatedAt   DateTime    @updatedAt
+    photos      PhotoLink[]
+}
+
+model PhotoLink {
+    id     Int    @id @default(autoincrement())
+    cityId Int
+    source String @db.Text
+    City   City?  @relation(fields: [cityId], references: [id])
+}

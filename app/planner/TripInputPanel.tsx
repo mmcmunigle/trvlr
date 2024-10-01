@@ -1,8 +1,7 @@
-import { BsChevronBarRight } from 'react-icons/bs';
 import { MdChevronLeft, MdChevronRight } from 'react-icons/md';
 import { Box, Button, Center, Group, Stack, Title } from '@mantine/core';
 import useStepperStore, { TripStep } from '../state-management/stepper-store';
-import StepContainer from './steps/StepContainer';
+import StepDetailsContainer from './steps/StepDetailsContainer';
 
 const TripInputPanel = () => {
   const step = useStepperStore((store) => store.step);
@@ -12,7 +11,7 @@ const TripInputPanel = () => {
   const titleMap = {
     [TripStep.TRIP_DETAILS]: "Let's get this trip started!",
     [TripStep.PREFERENCES]: 'Answer a few questions to get personalized suggestions',
-    [TripStep.DESTINATIONS]: 'Choose which cities you want to visit!',
+    [TripStep.DESTINATIONS]: 'Where do you want to visit!',
     [TripStep.ACTIVITIES]: 'Now the fun part... selecting activities and meals!',
     [TripStep.TRANSPORTATION]: "Let's figure out the best way to get around",
     [TripStep.FINAL_REIVEW]: 'Take a few minute to review your trip!',
@@ -20,10 +19,12 @@ const TripInputPanel = () => {
 
   return (
     <Center h="100%">
-      <Stack justify="space-between" h="100%" align="center" pt="3rem" maw="800px">
-        <Title ta="center">{titleMap[step]}</Title>
-        <Box mb="xl">
-          <StepContainer />
+      <Stack justify="space-between" h="100%" align="center" pt="3rem">
+        <Title ta="center" maw="800px">
+          {titleMap[step]}
+        </Title>
+        <Box mb="xl" maw="90%">
+          <StepDetailsContainer />
         </Box>
 
         <Group justify="center" pb="3rem">

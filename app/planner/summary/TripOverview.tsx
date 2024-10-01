@@ -1,56 +1,45 @@
-import { Accordion, Box, Flex, Group, Stack, Text } from '@mantine/core';
+import { MdMenu } from 'react-icons/md';
+import { Accordion, ActionIcon, Box, Flex, Group, Stack, Tabs, Text } from '@mantine/core';
+import { DatePickerInput } from '@mantine/dates';
+import useDestinationStore from '@/app/state-management/destination-store';
+import useTripStore from '@/app/state-management/trip-store';
 
 const TripOverview = () => {
-  const data = [
-    {
-      destination: 'Barcelona',
-      dateString: 'Oct 11th - 13th',
-    },
-    {
-      destination: 'Stiges',
-      dateString: 'Oct 14th - 16th',
-    },
-    {
-      destination: 'Mallorca',
-      dateString: 'Oct 17th - 19th',
-    },
-    {
-      destination: 'Madrid',
-      dateString: 'Oct 20th - 21th',
-    },
-  ];
+  const country = useTripStore((store) => store.country);
+  const destinations = useDestinationStore((store) => store.destinations);
   return (
     <Box mih="50%">
-      <Group justify="space-between" mt="md" mb="xs">
-        <Text fw={500}>Adventures in Spain</Text>
-      </Group>
-
-      {/* <Tabs defaultValue="results">
+      <Tabs defaultValue="itinerary">
         <Tabs.List my="md">
-          <Tabs.Tab value="results">Itinerary</Tabs.Tab>
+          <Tabs.Tab value="itinerary">Itinerary</Tabs.Tab>
           <Tabs.Tab value="details">Details</Tabs.Tab>
         </Tabs.List>
 
-        <Tabs.Panel value="results"> */}
-      <Stack gap="xs">
-        {data.map((dest) => (
-          <Accordion variant="default" key={dest.destination}>
-            <Accordion.Item value={dest.destination}>
-              <Accordion.Control>
-                <Flex align="center" gap="sm">
-                  <Text fw={700}>{dest.destination}</Text>
-                  <Text size="sm">{dest.dateString}</Text>
-                </Flex>
-              </Accordion.Control>
-              <Accordion.Panel>Trip Details</Accordion.Panel>
-            </Accordion.Item>
-          </Accordion>
-        ))}
-      </Stack>
-      {/* </Tabs.Panel> */}
+        <Tabs.Panel value="itinerary">
+          <Stack gap="xs">
+            {destinations.map((dest) => (
+              <Accordion variant="default" key={dest.name}>
+                <Accordion.Item value={dest.name!}>
+                  <Accordion.Control>
+                    <Flex align="center" gap="xl" justify="space-between">
+                      <Text fw={700} w="150px">
+                        {dest.name}
+                      </Text>
+                      <DatePickerInput type="range" w="300px" placeholder="Select Dates" />
+                      <ActionIcon variant="light" mr="lg">
+                        <MdMenu />
+                      </ActionIcon>
+                    </Flex>
+                  </Accordion.Control>
+                  <Accordion.Panel>Trip Details</Accordion.Panel>
+                </Accordion.Item>
+              </Accordion>
+            ))}
+          </Stack>
+        </Tabs.Panel>
 
-      {/* <Tabs.Panel value="details">Details</Tabs.Panel> */}
-      {/* </Tabs> */}
+        {/* <Tabs.Panel value="details">Details</Tabs.Panel> */}
+      </Tabs>
     </Box>
   );
 };

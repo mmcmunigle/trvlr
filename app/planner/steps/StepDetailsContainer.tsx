@@ -1,8 +1,10 @@
+import { APIProvider } from '@vis.gl/react-google-maps';
 import useStepperStore, { TripStep } from '../../state-management/stepper-store';
+import DestinationsStep from './DestinationsStep';
 import PreferencesStep from './PreferencesStep';
 import TripDetailsStep from './TripDetailsStep';
 
-const StepContainer = () => {
+const StepDetailsContainer = () => {
   const step = useStepperStore((store) => store.step);
 
   switch (step) {
@@ -11,7 +13,11 @@ const StepContainer = () => {
     case TripStep.PREFERENCES:
       return <PreferencesStep />;
     case TripStep.DESTINATIONS:
-      return <>Trip Details</>;
+      return (
+        <APIProvider apiKey="AIzaSyBMUjX4kLhW6yk4jWga99Zqg9CeAbuRmzo">
+          <DestinationsStep />
+        </APIProvider>
+      );
     case TripStep.ACTIVITIES:
       return <>Trip Details</>;
     case TripStep.TRANSPORTATION:
@@ -23,4 +29,4 @@ const StepContainer = () => {
   }
 };
 
-export default StepContainer;
+export default StepDetailsContainer;

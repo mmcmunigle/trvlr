@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { Box, InputLabel, MultiSelect, Stack } from '@mantine/core';
 import { DateInput, DatePicker, DatePickerInput } from '@mantine/dates';
 import boundingBoxes from '@/app/data/bounding-boxes.json';
+import useCityOptionStore from '@/app/state-management/city-options-store';
 import useTripStore from '@/app/state-management/trip-store';
 import { CountryName } from '@/app/types/CountryName';
 
@@ -10,13 +12,27 @@ const TripDetailsStep = () => {
   const [selection, setSelection] = useState<CountryName[] | null>(null);
   const [searchValue, setSearchValue] = useState('');
   const setCountry = useTripStore((store) => store.setCountry);
+  const setCityOptions = useCityOptionStore((store) => store.setCities);
 
   const countries = Object.keys(boundingBoxes);
 
   const onChange = (value: string[]) => {
-    setSelection(value as CountryName[]);
+    const countries = value as CountryName[];
+    setSelection(countries);
     if (value?.length) {
-      setCountry(value[0] as CountryName);
+      setCountry(countries[0]);
+
+      const getAllCities = async () => {
+        setCityOptions([]);
+        await axios
+          .post('https://countriesnow.space/api/v0.1/countries/cities', {
+            country: countries[0].toLowerCase(),
+          })
+          .then((resp) => {
+            setCityOptions(resp.data.data);
+          });
+      };
+      getAllCities();
     }
   };
 
@@ -24,7 +40,7 @@ const TripDetailsStep = () => {
     <Stack w="400px" gap="xl">
       <MultiSelect
         onChange={onChange}
-        size="lg"
+        size="md"
         radius="lg"
         label="Where are you traveling?"
         placeholder={selection?.length ? '' : 'Select Countries'}
@@ -43,7 +59,7 @@ const TripDetailsStep = () => {
         value={dates}
         onChange={setDates}
         w="100%"
-        size="lg"
+        size="md"
       />
     </Stack>
   );

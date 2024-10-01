@@ -8,7 +8,7 @@ import TripInputPanel from './TripInputPanel';
 const TripPlannerContainer = () => {
   return (
     <Grid gutter={0} h="calc(100% - 80px)">
-      <Grid.Col span={{ base: 12, md: 7 }}>
+      <Grid.Col span={{ base: 12, md: 7 }} h="100%">
         <TripInputPanel />
       </Grid.Col>
       <Grid.Col span={{ base: 12, md: 5 }}>

@@ -11,6 +11,7 @@ const PreferencesStep = () => {
           Activity Level
         </Text>
         <Slider
+          label={null}
           max={5}
           min={1}
           defaultValue={3}
@@ -27,6 +28,7 @@ const PreferencesStep = () => {
           Travel Style
         </Text>
         <Slider
+          label={null}
           max={5}
           min={1}
           defaultValue={3}

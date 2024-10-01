@@ -7,7 +7,10 @@ import NavBar from './components/NavBar/NavBar';
 
 import 'mapbox-gl/dist/mapbox-gl.css';
 import '@mantine/dates/styles.css';
+import '@mantine/carousel/styles.css';
 import './globals.css';
+
+import { APIProvider } from '@vis.gl/react-google-maps';
 
 export const metadata = {
   title: 'TRVLR - AI Travel Planner',
@@ -27,10 +30,12 @@ export default function RootLayout({ children }: { children: any }) {
       </head>
       <body>
         <AuthProvider>
+          {/* <APIProvider > */}
           <MantineProvider theme={theme}>
             {/* <NavBar /> */}
             {children}
           </MantineProvider>
+          {/* </APIProvider> */}
         </AuthProvider>
       </body>
     </html>
