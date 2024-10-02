@@ -17,6 +17,7 @@ const TripOverview = () => {
 
         <Tabs.Panel value="itinerary">
           <Stack gap="xs">
+            {!destinations.length && <Text>Add Destinations to Build out Itinerary</Text>}
             {destinations.map((dest) => (
               <Accordion variant="default" key={dest.name}>
                 <Accordion.Item value={dest.name!}>

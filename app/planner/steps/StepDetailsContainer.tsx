@@ -1,8 +1,10 @@
+import { useEffect } from 'react';
 import { APIProvider } from '@vis.gl/react-google-maps';
+import useTripStore from '@/app/state-management/trip-store';
 import useStepperStore, { TripStep } from '../../state-management/stepper-store';
-import DestinationsStep from './DestinationsStep';
-import PreferencesStep from './PreferencesStep';
-import TripDetailsStep from './TripDetailsStep';
+import DestinationsStep from './Destinations/DestinationsStep';
+import PreferencesStep from './Preferences/PreferencesStep';
+import TripDetailsStep from './TripDetails/TripDetailsStep';
 
 const StepDetailsContainer = () => {
   const step = useStepperStore((store) => store.step);

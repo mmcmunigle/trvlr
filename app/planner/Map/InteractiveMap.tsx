@@ -1,18 +1,24 @@
-import React, { useEffect, useRef } from 'react';
-import Map, { LngLatBoundsLike, MapRef } from 'react-map-gl';
+import React, { useEffect, useRef, useState } from 'react';
+import Map, { LngLatBoundsLike, MapRef, useMap } from 'react-map-gl';
 import boundingBoxes from '@/app/data/bounding-boxes.json';
 import useTripStore from '@/app/state-management/trip-store';
 
 const InteractiveMap = () => {
   const country = useTripStore((store) => store.country);
   const mapRef = useRef<MapRef>(null);
+  const map = useMap();
+  const [mapLoaded, setMapLoaded] = useState(false);
 
   useEffect(() => {
-    if (country) {
-      const coords = boundingBoxes[country];
-      mapRef.current?.fitBounds(coords as LngLatBoundsLike);
-    }
-  }, [country]);
+    if (!country || !mapRef) return;
+
+    const coords = boundingBoxes[country];
+    mapRef.current?.fitBounds(coords as LngLatBoundsLike);
+  }, [country, mapRef]);
+
+  // map.current?.on('style.load', () => {
+  //   setMapLoaded(true);
+  // });
 
   return (
     <Map

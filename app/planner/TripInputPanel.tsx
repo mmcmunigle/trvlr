@@ -19,12 +19,14 @@ const TripInputPanel = () => {
 
   return (
     <Center h="100%">
-      <Stack justify="space-between" h="100%" align="center" pt="3rem">
+      <Stack justify="space-between" h="100%" align="center" pt="3rem" w="100%">
         <Title ta="center" maw="800px">
           {titleMap[step]}
         </Title>
-        <Box mb="xl" maw="90%">
-          <StepDetailsContainer />
+        <Box mb="xl" w="95%">
+          <Center>
+            <StepDetailsContainer />
+          </Center>
         </Box>
 
         <Group justify="center" pb="3rem">
