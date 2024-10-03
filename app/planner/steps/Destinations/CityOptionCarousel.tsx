@@ -1,6 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useMapsLibrary } from '@vis.gl/react-google-maps';
-import axios from 'axios';
 import { MdAdd, MdClose } from 'react-icons/md';
 import { Carousel } from '@mantine/carousel';
 import {
@@ -21,18 +19,11 @@ import useTripStore from '@/app/state-management/trip-store';
 import { CityWithPhotos } from '@/app/types/CityWithPhotos';
 import CarouselSkeleton from './CarouselSkeleton';
 
-type City = {
-  name: string;
-  description: string;
-  photos: string[];
-};
-
 const CityOptionCarousel = () => {
   const country = useTripStore((store) => store.country);
   const [cities, setCities] = useState<CityWithPhotos[]>([]);
   const [loading, setLoading] = useState(true);
   const addDestination = useDestinationStore((store) => store.addDestination);
-  // const { isLoaded, loadError, placesService } = useMapsLibrary();
 
   useEffect(() => {
     const getOptions = async () => {
@@ -51,7 +42,7 @@ const CityOptionCarousel = () => {
   return (
     <Carousel
       controlSize={40}
-      height={500}
+      height={450}
       slideGap={{ base: 0, sm: 'md' }}
       align="start"
       w="100%"
@@ -61,9 +52,9 @@ const CityOptionCarousel = () => {
       {!loading &&
         cities!.map((city, index) => (
           <Carousel.Slide key={index}>
-            <Card shadow="md" h="455px" radius="lg" p={0} mt={30}>
+            <Card shadow="md" h="405px" radius="lg" p={0} mt={30}>
               <Stack h="100%" gap="sm">
-                <Image src={city.photos?.length ? city.photos[0].link : null} mih="300px" />
+                <Image src={city.photos?.length ? city.photos[0].link : null} mih="250px" />
 
                 <Box>
                   <Group justify="space-between" px="lg">

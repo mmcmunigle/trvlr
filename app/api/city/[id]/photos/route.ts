@@ -18,7 +18,7 @@ export async function POST(request: NextRequest, { params }: Props) {
   //     return NextResponse.json(validation.error.format(), { status: 400 });
   //   }
 
-  const { link, source } = body;
+  const { link, source, sourceId } = body;
 
   const city = await prisma.city.findUnique({
     where: { id: parseInt(params.id) },
@@ -33,6 +33,7 @@ export async function POST(request: NextRequest, { params }: Props) {
       cityId: city.id,
       link: link,
       source: source,
+      sourceId: sourceId,
     },
   });
 

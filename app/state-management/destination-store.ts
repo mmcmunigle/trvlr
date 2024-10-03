@@ -1,5 +1,6 @@
 import { Destination } from '@prisma/client';
 import { create } from 'zustand';
+import { createJSONStorage, persist, PersistOptions } from 'zustand/middleware';
 
 interface DestinationStore {
   destinations: Partial<Destination>[];
@@ -8,25 +9,26 @@ interface DestinationStore {
   setDestinations: (destination: Destination[]) => void;
 }
 
-const useDestinationStore = create<DestinationStore>((set) => ({
-  destinations: [],
-  addDestination: (destination: Partial<Destination>) =>
-    set((store) => {
-      const index = store.destinations.findIndex((d) => d.name === destination.name);
-      if (index === -1) {
-        store.destinations.push(destination);
-        return { destinations: Array.from(store.destinations) };
-      } else {
-        return { destinations: store.destinations };
-      }
+const useDestinationStore = create<DestinationStore, [['zustand/persist', DestinationStore]]>(
+  persist(
+    (set, get) => ({
+      destinations: [],
+
+      addDestination: (destination: Partial<Destination>) =>
+        set((state) => ({ destinations: [...state.destinations, destination] })),
+
+      removeDestination: (name: string) =>
+        set((store) => ({
+          destinations: store.destinations.filter((d) => d.name !== name),
+        })),
+
+      setDestinations: (destinations: Destination[]) => set(() => ({ destinations })),
     }),
-  removeDestination: (name: string) =>
-    set((store) => {
-      const index = store.destinations.findIndex((d) => d.name === name);
-      store.destinations.slice(index, 1);
-      return { destinations: store.destinations };
-    }),
-  setDestinations: (destinations: Destination[]) => set(() => ({ destinations })),
-}));
+    {
+      name: 'trip-destinations', // Name of the storage key
+      storage: createJSONStorage(() => localStorage),
+    }
+  )
+);
 
 export default useDestinationStore;

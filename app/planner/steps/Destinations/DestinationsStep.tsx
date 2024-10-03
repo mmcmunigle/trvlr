@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { RiMapPinAddFill } from 'react-icons/ri';
-import { Autocomplete, Box, Button, Group, Space, Stack, Title } from '@mantine/core';
+import { Autocomplete, Box, Button, Group, Stack, Title } from '@mantine/core';
 import useCityOptionStore from '@/app/state-management/city-options-store';
 import useDestinationStore from '@/app/state-management/destination-store';
 import CityOptionCarousel from './CityOptionCarousel';

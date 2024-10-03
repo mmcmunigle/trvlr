@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { APIProvider } from '@vis.gl/react-google-maps';
 import useTripStore from '@/app/state-management/trip-store';
 import useStepperStore, { TripStep } from '../../state-management/stepper-store';
+import ActivityStep from './Activities/ActivityStep';
 import DestinationsStep from './Destinations/DestinationsStep';
 import PreferencesStep from './Preferences/PreferencesStep';
 import TripDetailsStep from './TripDetails/TripDetailsStep';
@@ -17,7 +18,7 @@ const StepDetailsContainer = () => {
     case TripStep.DESTINATIONS:
       return <DestinationsStep />;
     case TripStep.ACTIVITIES:
-      return <>Trip Details</>;
+      return <ActivityStep />;
     case TripStep.TRANSPORTATION:
       return <>Trip Details</>;
     case TripStep.FINAL_REIVEW:
