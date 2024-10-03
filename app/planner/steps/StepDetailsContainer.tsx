@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { APIProvider } from '@vis.gl/react-google-maps';
 import useTripStore from '@/app/state-management/trip-store';
 import useStepperStore, { TripStep } from '../../state-management/stepper-store';
@@ -15,11 +15,7 @@ const StepDetailsContainer = () => {
     case TripStep.PREFERENCES:
       return <PreferencesStep />;
     case TripStep.DESTINATIONS:
-      return (
-        <APIProvider apiKey="AIzaSyBMUjX4kLhW6yk4jWga99Zqg9CeAbuRmzo">
-          <DestinationsStep />
-        </APIProvider>
-      );
+      return <DestinationsStep />;
     case TripStep.ACTIVITIES:
       return <>Trip Details</>;
     case TripStep.TRANSPORTATION:

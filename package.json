@@ -32,6 +32,7 @@
     "@mantine/hooks": "^7.12.2",
     "@next/bundle-analyzer": "^14.2.4",
     "@prisma/client": "^5.19.1",
+    "@react-google-maps/api": "^2.19.3",
     "@tabler/icons-react": "^3.6.0",
     "@types/mapbox-gl": "^3.4.0",
     "@types/react-beautiful-dnd": "^13.1.8",

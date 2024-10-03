@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import axios from 'axios';
 import { z } from 'zod';
 
 const CITIES_RESPONSE_TEMPLATE = `[
@@ -25,8 +24,7 @@ type ChatGPTResponse = {
 };
 
 const GenerateCitiesSchema = z.object({
-  country: z.string().min(1, 'Country is required').max(255),
-  days: z.number().min(1, 'Days is required').max(365),
+  country: z.string().min(3, 'Country is required').max(255),
 });
 
 export type CitiesGPTRequest = z.infer<typeof GenerateCitiesSchema>;
@@ -40,25 +38,27 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const message = `Please provide city recommendations for an amazing ${body.days} day trip to ${body.country}. 
+    const message = `Please provide city recommendations for an amazing trip to ${body.country}. 
     The response should be provided as a valid json object in the following format ${CITIES_RESPONSE_TEMPLATE}.
     Please provide at least 10 recommended cities. Nearby islands and neighboring cities may be included.`;
 
-    const response = await axios.post<ChatGPTResponse>(
-      'https://api.openai.com/v1/chat/completions',
-      {
+    const gptResponse = await fetch('https://api.openai.com/v1/chat/completions', {
+      body: JSON.stringify({
         model: 'gpt-4o-mini',
         messages: [{ role: 'user', content: message }],
+      }),
+      headers: {
+        Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+        'Content-Type': 'application/json',
       },
-      {
-        headers: {
-          Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
-          'Content-Type': 'application/json',
-        },
-      }
-    );
+      method: 'POST',
+      cache: 'force-cache',
+    });
 
-    let content = response.data.choices[0].message.content;
+    const gptData: ChatGPTResponse = await gptResponse.json();
+    console.log(gptData);
+
+    let content = gptData.choices[0].message.content;
     if (content.includes('```json')) {
       content = content.replace('```json', '').replace('```', '');
     }
