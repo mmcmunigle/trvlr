@@ -6,8 +6,6 @@ import useTripStore from '@/app/state-management/trip-store';
 const InteractiveMap = () => {
   const country = useTripStore((store) => store.country);
   const mapRef = useRef<MapRef>(null);
-  const map = useMap();
-  const [mapLoaded, setMapLoaded] = useState(false);
 
   useEffect(() => {
     if (!country || !mapRef) return;
@@ -15,10 +13,6 @@ const InteractiveMap = () => {
     const coords = boundingBoxes[country];
     mapRef.current?.fitBounds(coords as LngLatBoundsLike);
   }, [country, mapRef]);
-
-  // map.current?.on('style.load', () => {
-  //   setMapLoaded(true);
-  // });
 
   return (
     <Map

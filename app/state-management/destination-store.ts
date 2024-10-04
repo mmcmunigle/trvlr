@@ -1,6 +1,6 @@
 import { Destination } from '@prisma/client';
 import { create } from 'zustand';
-import { createJSONStorage, persist, PersistOptions } from 'zustand/middleware';
+import { createJSONStorage, persist } from 'zustand/middleware';
 
 interface DestinationStore {
   destinations: Partial<Destination>[];

@@ -14,16 +14,8 @@ const CountrySelector = () => {
 
   const countries = Object.keys(boundingBoxes);
 
-  useEffect(() => {
-    const country = localStorage.getItem('trip_country');
-    if (country) {
-      onCountrySelect(JSON.parse(country));
-    }
-  }, []);
-
   const onCountrySelect = async (value: string | null) => {
     setCountry(value as CountryName | null);
-    localStorage.setItem('trip_country', JSON.stringify(value));
 
     // Start gathering all city options now to be used in future steps
     if (value) {
