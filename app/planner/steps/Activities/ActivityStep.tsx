@@ -28,7 +28,7 @@ const ActivityStep = () => {
           searchable
           searchValue={searchValue}
           onSearchChange={setSearchValue}
-          defaultValue={destinations[0].name}
+          defaultValue={destinations[0]?.name}
           data={destinations.map((dest) => dest.name!)}
         />
       </Center>

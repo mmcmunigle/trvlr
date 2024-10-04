@@ -7,6 +7,7 @@ import useTripStore from '@/app/state-management/trip-store';
 const TripOverview = () => {
   const country = useTripStore((store) => store.country);
   const destinations = useDestinationStore((store) => store.destinations);
+
   return (
     <Box mih="50%">
       <Tabs defaultValue="itinerary">

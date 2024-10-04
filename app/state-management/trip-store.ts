@@ -5,7 +5,8 @@ import { CountryName } from '../types/CountryName';
 
 interface TripStore {
   country: CountryName | null;
-  dates: [DateValue, DateValue] | null;
+  startDate: DateValue | null;
+  endDate: DateValue | null;
   setDates: (dates: [DateValue, DateValue]) => void;
   setCountry: (country: CountryName | null) => void;
 }
@@ -14,8 +15,10 @@ const useTripStore = create<TripStore, [['zustand/persist', TripStore]]>(
   persist(
     (set, get) => ({
       country: null,
-      dates: null,
-      setDates: (dates: [DateValue, DateValue]) => set((store) => ({ ...store, dates })),
+      startDate: null,
+      endDate: null,
+      setDates: (dates: [DateValue, DateValue]) =>
+        set((store) => ({ ...store, startDate: dates[0], endDate: dates[1] })),
       setCountry: (country: CountryName | null) => set((store) => ({ ...store, country })),
     }),
     {

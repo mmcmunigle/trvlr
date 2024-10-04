@@ -32,7 +32,7 @@ const useStepperStore = create<StepStore, [['zustand/persist', StepStore]]>(
         })),
     }),
     {
-      name: 'trip-destinations', // Name of the storage key
+      name: 'trip-step', // Name of the storage key
       storage: createJSONStorage(() => localStorage),
     }
   )

@@ -5,7 +5,8 @@ import CountrySelector from './CountrySelector';
 
 const TripDetailsStep = () => {
   const setDates = useTripStore((store) => store.setDates);
-  const dates = useTripStore((store) => store.dates);
+  const startDate = useTripStore((store) => store.startDate);
+  const endDate = useTripStore((store) => store.endDate);
 
   return (
     <Stack w="400px" gap="xl">
@@ -15,7 +16,7 @@ const TripDetailsStep = () => {
         label="Travel Dates"
         placeholder="Select Travel Dates"
         type="range"
-        value={dates ? dates : undefined}
+        value={startDate && endDate ? [new Date(startDate), new Date(endDate)] : undefined}
         onChange={setDates}
         w="100%"
         size="md"
