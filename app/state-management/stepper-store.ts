@@ -19,7 +19,7 @@ interface StepStore {
 
 const useStepperStore = create<StepStore, [['zustand/persist', StepStore]]>(
   persist(
-    (set, get) => ({
+    (set) => ({
       step: 0,
       setStep: (step: TripStep) => set(() => ({ step: step })),
       nextStep: () =>

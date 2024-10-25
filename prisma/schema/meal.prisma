@@ -5,8 +5,8 @@ model Meal {
     link          String?      @db.VarChar(1023)
     notes         String?      @db.Text
     type          MealType     @default(OTHER)
-    latitude      Decimal?
-    longitude     Decimal?
+    latitude      Float?
+    longitude     Float?
     start         DateTime?
     end           DateTime?
     allDay        Boolean      @default(false)

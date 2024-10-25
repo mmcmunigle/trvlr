@@ -1,31 +1,21 @@
+import { Trip } from '@prisma/client';
 import { create } from 'zustand';
-import { createJSONStorage, persist } from 'zustand/middleware';
 import { DateValue } from '@mantine/dates';
 import { CountryName } from '../types/CountryName';
 
 interface TripStore {
-  country: CountryName | null;
-  startDate: DateValue | null;
-  endDate: DateValue | null;
+  trip: Trip;
   setDates: (dates: [DateValue, DateValue]) => void;
   setCountry: (country: CountryName | null) => void;
+  setTrip: (trip: Trip) => void;
 }
 
-const useTripStore = create<TripStore, [['zustand/persist', TripStore]]>(
-  persist(
-    (set, get) => ({
-      country: null,
-      startDate: null,
-      endDate: null,
-      setDates: (dates: [DateValue, DateValue]) =>
-        set((store) => ({ ...store, startDate: dates[0], endDate: dates[1] })),
-      setCountry: (country: CountryName | null) => set((store) => ({ ...store, country })),
-    }),
-    {
-      name: 'trip-details-store', // Name of the storage key
-      storage: createJSONStorage(() => localStorage),
-    }
-  )
-);
+const useTripStore = create<TripStore>((set) => ({
+  trip: {} as Trip,
+  setDates: (dates: [DateValue, DateValue]) =>
+    set((store) => ({ ...store, startDate: dates[0], endDate: dates[1] })),
+  setCountry: (country: CountryName | null) => set((store) => ({ ...store, country })),
+  setTrip: (trip: Trip) => set(() => ({ trip })),
+}));
 
 export default useTripStore;

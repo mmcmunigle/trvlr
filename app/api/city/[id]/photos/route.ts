@@ -28,7 +28,7 @@ export async function POST(request: NextRequest, { params }: Props) {
     return NextResponse.json({ error: 'Invalid City' }, { status: 404 });
   }
 
-  const photo = await prisma.photoLink.create({
+  const photo = await prisma.cityPhotoLink.create({
     data: {
       cityId: city.id,
       link: link,

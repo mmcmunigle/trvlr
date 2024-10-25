@@ -6,9 +6,10 @@ import { MdDeleteForever } from 'react-icons/md';
 import { ActionIcon, Card, Checkbox, Flex, Group, Menu, Text, Tooltip } from '@mantine/core';
 
 export type EventTypes = 'destination' | 'activity' | 'meal' | 'lodging';
+export type EventObject = Activity | Meal | Lodging;
 
 interface Props {
-  event: Activity | Meal;
+  event: EventObject;
   type: EventTypes;
 }
 

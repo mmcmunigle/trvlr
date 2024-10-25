@@ -32,10 +32,8 @@ export async function PATCH(request: NextRequest, { params }: Props) {
     where: { id: activity.id },
     data: {
       title: title,
-      type: type,
-      description: description,
-      start: start,
-      end: end,
+      start: new Date(start),
+      end: new Date(end),
       allDay: allDay,
       onCalendar: onCalendar,
       rank: rank,

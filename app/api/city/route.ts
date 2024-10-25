@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
   });
 
   photos.forEach(async (photo: any) => {
-    await prisma.photoLink.create({
+    await prisma.cityPhotoLink.create({
       data: {
         ...photo,
         cityId: city.id,

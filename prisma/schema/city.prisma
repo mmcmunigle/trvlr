@@ -1,16 +1,17 @@
 model City {
-    id          Int         @id @default(autoincrement())
-    name        String      @unique @db.VarChar(255)
-    country     String?     @db.VarChar(255)
-    description String?     @db.Text
-    latitude    Decimal?
-    longitude   Decimal?
-    createdAt   DateTime    @default(now())
-    updatedAt   DateTime    @updatedAt
-    photos      PhotoLink[]
+    id          Int             @id @default(autoincrement())
+    name        String          @unique @db.VarChar(255)
+    country     String?         @db.VarChar(255)
+    description String?         @db.Text
+    latitude    Float?
+    longitude   Float?
+    createdAt   DateTime        @default(now())
+    updatedAt   DateTime        @updatedAt
+    photos      CityPhotoLink[]
+    activities  Place[]
 }
 
-model PhotoLink {
+model CityPhotoLink {
     id       Int    @id @default(autoincrement())
     cityId   Int
     link     String @db.Text

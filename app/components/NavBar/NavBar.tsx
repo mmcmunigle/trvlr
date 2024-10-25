@@ -29,7 +29,7 @@ const NavLinks = () => {
   const currentPath = usePathname();
 
   const links = [
-    { label: 'Planner', href: '/planner' },
+    { label: 'Planner', href: '/planner/new' },
     { label: 'Dashboard', href: '/dashboard' },
   ];
 

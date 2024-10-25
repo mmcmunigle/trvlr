@@ -8,3 +8,18 @@
     font-size: rem(50px);
   }
 }
+
+.card {
+  /* background-color: ; */
+  height: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #dee2ff;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}

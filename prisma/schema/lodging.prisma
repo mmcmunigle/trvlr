@@ -1,15 +1,14 @@
 model Lodging {
     id            Int          @id @default(autoincrement())
-    name          String       @db.VarChar(255)
+    title         String       @db.VarChar(255)
     description   String?      @db.Text
     link          String?      @db.VarChar(1023)
     notes         String?      @db.Text
     type          LODGING_TYPE @default(HOTEL)
-    latitude      Decimal?
-    longitude     Decimal?
+    latitude      Float?
+    longitude     Float?
     start         DateTime?
     end           DateTime?
-    days          Int
     onCalendar    Boolean      @default(true)
     rank          Int
     placeId       String?      @db.VarChar(511)

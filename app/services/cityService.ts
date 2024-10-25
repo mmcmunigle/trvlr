@@ -1,11 +1,6 @@
-import { link } from 'fs';
-import { aX } from '@fullcalendar/core/internal-common';
-import { City, PhotoLink } from '@prisma/client';
-import { useMapsLibrary } from '@vis.gl/react-google-maps';
+import { CityPhotoLink } from '@prisma/client';
 import axios from 'axios';
-import { prisma } from '@/prisma/prisma';
-import { CityWithPhotos } from '../types/CityWithPhotos';
-import { initializePlaces } from './placeService';
+import { initializePlacesLibrary } from './placeLibraryService';
 
 export interface CityGtpResponse {
   name: string;
@@ -55,7 +50,7 @@ const getCityData = async (cityName: string) => {
 };
 
 const findCityData = async (city: CityGtpResponse, country: string) => {
-  const Place = await initializePlaces();
+  const Place = await initializePlacesLibrary();
   type Response = {
     places: google.maps.places.Place[];
   };
@@ -89,7 +84,7 @@ const saveCityData = async (city: CityGtpResponse) => {};
 export async function getUnsplashPhotos(cityName: string) {
   const clientId = 'LzczRZIzA1e3AN39z1wT6CSdxip3_IqU5ebCHhvnqOo';
   const unsplashAPI = 'https://api.unsplash.com/search/photos';
-  let photos: PhotoLink[] = [];
+  let photos: CityPhotoLink[] = [];
 
   try {
     const resp = await axios.get(`${unsplashAPI}?query=${cityName}&client_id=${clientId}`);

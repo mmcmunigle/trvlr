@@ -1,5 +1,5 @@
 import React, { createContext, ReactNode, useContext, useEffect, useRef, useState } from 'react';
-import { useLoadScript } from '@react-google-maps/api';
+import { Libraries, useJsApiLoader, useLoadScript } from '@react-google-maps/api';
 
 // Define the context type
 interface MapsLibraryContextType {
@@ -15,11 +15,13 @@ interface Props {
   children: ReactNode;
 }
 
+const LIBRARIES: Libraries = ['places'];
+
 // Provider component with types
 export const MapsLibraryProvider: React.FC<Props> = ({ children }) => {
-  const { isLoaded, loadError } = useLoadScript({
+  const { isLoaded, loadError } = useJsApiLoader({
     googleMapsApiKey: process.env.GOOGLE_PLACES_API_KEY!,
-    libraries: ['places'],
+    libraries: LIBRARIES,
   });
 
   const mapRef = useRef<HTMLDivElement>(null); // Ref for the map container

@@ -1,34 +1,43 @@
-import { Destination } from '@prisma/client';
 import { create } from 'zustand';
-import { createJSONStorage, persist } from 'zustand/middleware';
+import { DestinationWithDetails } from '../types/DestinationWithDetails';
 
 interface DestinationStore {
-  destinations: Partial<Destination>[];
-  addDestination: (destination: Partial<Destination>) => void;
-  removeDestination: (name: string) => void;
-  setDestinations: (destination: Destination[]) => void;
+  destinations: { name: string; id: number }[];
+  destinationDetails: DestinationWithDetails[];
+  addDestination: (destination: DestinationWithDetails) => void;
+  removeDestination: (id: number) => void;
+  updateDestination: (destination: DestinationWithDetails) => void;
+  setDestinations: (destinations: DestinationWithDetails[]) => void;
 }
 
-const useDestinationStore = create<DestinationStore, [['zustand/persist', DestinationStore]]>(
-  persist(
-    (set, get) => ({
-      destinations: [],
+const useDestinationStore = create<DestinationStore>((set) => ({
+  destinations: [],
+  destinationDetails: [],
 
-      addDestination: (destination: Partial<Destination>) =>
-        set((state) => ({ destinations: [...state.destinations, destination] })),
+  addDestination: (destination: DestinationWithDetails) =>
+    set((store) => ({
+      destinations: [...store.destinations, { name: destination.name, id: destination.id }],
+      destinationDetails: [...store.destinationDetails, destination],
+    })),
 
-      removeDestination: (name: string) =>
-        set((store) => ({
-          destinations: store.destinations.filter((d) => d.name !== name),
-        })),
+  removeDestination: (id: number) =>
+    set((store) => ({
+      destinations: store.destinations.filter((d) => d.id !== id),
+      destinationDetails: store.destinationDetails.filter((d) => d.id !== id),
+    })),
 
-      setDestinations: (destinations: Destination[]) => set(() => ({ destinations })),
+  updateDestination: (destination: DestinationWithDetails) =>
+    set((store) => {
+      const index = store.destinations.findIndex((d) => d.id === destination.id);
+      store.destinations[index] = destination;
+      return { destinations: store.destinations };
     }),
-    {
-      name: 'trip-destinations', // Name of the storage key
-      storage: createJSONStorage(() => localStorage),
-    }
-  )
-);
+
+  setDestinations: (destinations: DestinationWithDetails[]) =>
+    set(() => ({
+      destinations: destinations.map((dest) => ({ id: dest.id, name: dest.name })),
+      destinationDetails: destinations,
+    })),
+}));
 
 export default useDestinationStore;

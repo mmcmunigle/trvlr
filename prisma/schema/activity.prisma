@@ -1,27 +1,16 @@
 model Activity {
-    id            Int          @id @default(autoincrement())
-    title         String       @db.VarChar(255)
-    description   String?      @db.Text
-    link          String?      @db.VarChar(1023)
-    notes         String?      @db.Text
-    type          ActivityType @default(ACTIVITY)
-    latitude      Decimal?
-    longitude     Decimal?
+    id            Int         @id @default(autoincrement())
+    title         String      @db.VarChar(255)
+    notes         String?     @db.Text
     start         DateTime?
     end           DateTime?
-    allDay        Boolean      @default(false)
-    onCalendar    Boolean      @default(true)
-    rank          Int          @default(1)
-    placeId       String?      @db.VarChar(511)
-    createdAt     DateTime     @default(now())
-    updatedAt     DateTime     @updatedAt
-    Destination   Destination? @relation(fields: [destinationId], references: [id])
-    destinationId Int?
-}
-
-enum ActivityType {
-    TRAVEL
-    ACTIVITY
-    TOUR
-    HISTORICAL
+    allDay        Boolean     @default(false)
+    onCalendar    Boolean     @default(true)
+    rank          Int         @default(1)
+    createdAt     DateTime    @default(now())
+    updatedAt     DateTime    @updatedAt
+    Destination   Destination @relation(fields: [destinationId], references: [id])
+    destinationId Int
+    Place         Place?      @relation(fields: [placeId], references: [id])
+    placeId       Int?
 }

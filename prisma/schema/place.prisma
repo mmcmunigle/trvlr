@@ -1,0 +1,32 @@
+model Place {
+    id            Int              @id @default(autoincrement())
+    name          String           @db.VarChar(255)
+    description   String?          @db.Text
+    link          String?          @db.VarChar(1023)
+    type          PlaceType
+    latitude      Float?
+    longitude     Float?
+    googlePlaceId String?          @db.VarChar(511)
+    createdAt     DateTime         @default(now())
+    updatedAt     DateTime         @updatedAt
+    city          City             @relation(fields: [cityId], references: [id])
+    activities    Activity[]
+    photos        PlacePhotoLink[]
+    cityId        Int
+}
+
+model PlacePhotoLink {
+    id       Int    @id @default(autoincrement())
+    placeId  Int
+    link     String @db.Text
+    source   String @db.Text
+    sourceId String @db.Text
+    Place    Place? @relation(fields: [placeId], references: [id])
+}
+
+enum PlaceType {
+    ACTIVITY
+    FOOD
+    LODGING
+    TRAVEL
+}

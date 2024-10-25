@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   DateInput,
   DateSelectArg,
@@ -13,13 +13,15 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
-import { Activity, ActivityType, Destination, Lodging, Meal } from '@prisma/client';
+import { Activity, Destination, Lodging, Meal, PlaceType } from '@prisma/client';
 import axios from 'axios';
 import { Box, Flex, Modal } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import ActivityDetails from '@/app/components/Activity/ActivityDetails';
+import ModalWrapper from '@/app/components/ModalWrapper';
 import { TripWithDestinations } from '@/app/types/TripWithDestinations';
-import { EventTypes } from './sidebar/EventCard';
+import NewEventForm from './NewEventForm';
+import { EventObject, EventTypes } from './sidebar/EventCard';
 import { Sidebar } from './sidebar/SideBar';
 import classes from './Calendar.module.css';
 
@@ -33,16 +35,19 @@ interface Props {
 }
 
 const eventColors = {
-  [ActivityType.TRAVEL]: 'var(--mantine-color-blue-dianne-7)',
-  [ActivityType.ACTIVITY]: 'var(--mantine-color-blue-dianne-7)',
-  [ActivityType.HISTORICAL]: 'var(--mantine-color-blue-dianne-7)',
-  [ActivityType.TOUR]: 'var(--mantine-color-blue-dianne-7)',
+  [PlaceType.TRAVEL]: 'var(--mantine-color-blue-dianne-7)',
+  [PlaceType.ACTIVITY]: 'var(--mantine-color-blue-dianne-7)',
+  [PlaceType.FOOD]: 'var(--mantine-color-blue-dianne-7)',
+  [PlaceType.LODGING]: 'var(--mantine-color-blue-dianne-7)',
 };
 
 export const Calendar = ({ trip }: Props) => {
   const [opened, { open, close }] = useDisclosure(false);
   const [selectedActivity, setSelectedActivity] = useState<Activity | null>(null);
   const [events, setEvents] = useState<EventWithData[]>();
+  const [openAddModal, setOpenAddModal] = useState<boolean>(false);
+  const [selectedStart, setSelectedStart] = useState<Date>();
+  const [selectedEnd, setSelectedEnd] = useState<Date>();
 
   useEffect(() => {
     const destEvents: EventWithData[] = trip.destinations.map((destination) => {
@@ -70,7 +75,7 @@ export const Calendar = ({ trip }: Props) => {
             // textColor: 'var(--mantine-color-slate-earth-7)',
             // borderColor: 'var(--mantine-color-gray-5)',
             allDay: false,
-            data: { activity },
+            data: { activity: activity },
             type: 'activity',
           });
         }
@@ -97,7 +102,7 @@ export const Calendar = ({ trip }: Props) => {
         if (lodging.onCalendar) {
           destEvents.push({
             id: 'lodge' + lodging.id.toString(),
-            title: lodging.name,
+            title: lodging.title,
             start: lodging.start as DateInput,
             end: lodging.end as DateInput,
             backgroundColor: 'var(--mantine-color-gray-1)',
@@ -123,23 +128,83 @@ export const Calendar = ({ trip }: Props) => {
     open();
   };
 
-  function handleDateSelect(selectInfo: DateSelectArg) {
-    let title = prompt('Please enter a new title for your event');
+  const findDestinationInTime = (date: Date) => {
+    const index = trip.destinations.findIndex(
+      (dest) => dest.startDate! <= date && dest.endDate! >= date
+    );
+    return trip.destinations[index].id;
+  };
+
+  const dateWithoutTimezone = (date: Date) => {
+    const tzoffset = date.getTimezoneOffset() * 60000; //offset in milliseconds
+    const withoutTimezone = new Date(date.valueOf() - tzoffset).toISOString().slice(0, -1);
+    return withoutTimezone;
+  };
+
+  const handleDateSelect = async (selectInfo: DateSelectArg) => {
+    setSelectedStart(selectInfo.start);
+    setSelectedEnd(selectInfo.end);
+    setOpenAddModal(true);
+
     const calendarApi = selectInfo.view.calendar;
     calendarApi.unselect(); // clear date selection
-    // eventStore.addEvent(selectInfo, title);
-  }
+  };
+
+  const handleEventAdded = (savedEvent: EventObject, type: EventTypes) => {
+    const event: EventWithData = {
+      id: 'activity' + savedEvent.id.toString(),
+      title: savedEvent.title,
+      start: savedEvent.start as DateInput,
+      end: savedEvent.end as DateInput,
+      backgroundColor: '#669bbc',
+      // textColor: 'var(--mantine-color-slate-earth-7)',
+      // borderColor: 'var(--mantine-color-gray-5)',
+      allDay: type === 'lodging' ? true : false,
+      type: type,
+      data: { activity: savedEvent as Activity },
+    };
+
+    switch (type) {
+      case 'activity':
+        event.data = { activity: savedEvent as Activity };
+      case 'meal':
+        event.data = { meal: savedEvent as Meal };
+      case 'lodging':
+        event.data = { lodging: savedEvent as Lodging };
+    }
+
+    setEvents([...events!, event]);
+    setOpenAddModal(false);
+  };
 
   function handleEventChange(changeInfo: EventChangeArg) {
     const eventDetails = changeInfo.event._def.extendedProps;
     const type = eventDetails.type;
     const id = eventDetails.data[type].id;
 
-    axios.patch(`/api/${type}/${id}`, changeInfo.event);
+    axios.patch(`/api/${type}/${id}`, {
+      start: dateWithoutTimezone(changeInfo.event.start!),
+      end: dateWithoutTimezone(changeInfo.event.end!),
+      title: changeInfo.event.title,
+    });
   }
 
   return (
     <>
+      <ModalWrapper
+        title="New Event"
+        size="md"
+        openModal={openAddModal}
+        onClose={() => setOpenAddModal(false)}
+      >
+        <NewEventForm
+          start={selectedStart!}
+          end={selectedEnd!}
+          destinations={trip.destinations.map((d) => ({ name: d.name, id: d.id }))}
+          onSubmit={handleEventAdded}
+        />
+      </ModalWrapper>
+
       <Modal opened={opened} onClose={close} title={selectedActivity?.title} size={'lg'}>
         <ActivityDetails />
       </Modal>
@@ -148,7 +213,7 @@ export const Calendar = ({ trip }: Props) => {
         <Box className={classes.calendarMain}>
           <FullCalendar
             initialDate={new Date(trip.startDate!)}
-            timeZone="Europe/France"
+            timeZone="UTC"
             height="100%"
             plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
             headerToolbar={{

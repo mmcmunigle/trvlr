@@ -120,6 +120,37 @@ const EventList = ({ destination }: Props) => {
           </Droppable>
         </DragDropContext>
       </Box>
+      <Box>
+        <Title order={5}>Lodging</Title>
+        <DragDropContext onDragEnd={handleOnMealDragEnd}>
+          <Droppable droppableId="lodging">
+            {(provided) => (
+              <Box {...provided.droppableProps} ref={provided.innerRef}>
+                {destination.lodgings
+                  .sort((a, b) => (a.rank > b.rank ? 1 : -1))
+                  .map((lodging, index) => (
+                    <Draggable
+                      key={`lodge-${lodging.id}`}
+                      draggableId={lodging.id.toString()}
+                      index={index}
+                    >
+                      {(provided) => (
+                        <Box
+                          ref={provided.innerRef}
+                          {...provided.dragHandleProps}
+                          {...provided.draggableProps}
+                        >
+                          <EventCard event={lodging} type="lodging" />
+                        </Box>
+                      )}
+                    </Draggable>
+                  ))}
+                {provided.placeholder}
+              </Box>
+            )}
+          </Droppable>
+        </DragDropContext>
+      </Box>
     </Stack>
   );
 };

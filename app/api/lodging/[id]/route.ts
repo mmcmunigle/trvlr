@@ -31,11 +31,11 @@ export async function PATCH(request: NextRequest, { params }: Props) {
   const updatedIssue = await prisma.lodging.update({
     where: { id: lodging.id },
     data: {
-      name: title,
+      title: title,
       type: type,
       description: description,
-      start: start,
-      end: end,
+      start: new Date(start),
+      end: new Date(end),
       onCalendar: onCalendar,
     },
   });
