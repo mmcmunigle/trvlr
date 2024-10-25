@@ -21,7 +21,7 @@ const TripDetailsStep = () => {
             ? [new Date(trip.startDate), new Date(trip.endDate)]
             : undefined
         }
-        onChange={(dates) => updateTrip({ startDate: dates[0], endDate: dates[1] })}
+        onChange={(dates) => updateTrip(trip.id, { startDate: dates[0], endDate: dates[1] })}
         w="100%"
         size="md"
       />

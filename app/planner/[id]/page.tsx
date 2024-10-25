@@ -23,10 +23,19 @@ const TripPlannerPage = async ({ params }: Props) => {
   if (params.id !== 'new') {
     trip = await fetchTrip(parseInt(params.id));
     if (!trip) notFound();
+  } else {
+    trip = await prisma.trip.create({
+      data: {
+        title: 'Unplanned',
+      },
+      include: {
+        destinations: { include: { activities: true, meals: true, lodgings: true } },
+      },
+    });
   }
 
   return (
-    <TripLoader trip={trip}>
+    <TripLoader trip={trip!}>
       <Stack h="100vh" gap={0}>
         <PlanStepper />
         <TripPlannerContainer />

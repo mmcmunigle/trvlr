@@ -47,7 +47,6 @@ const TripOverview = () => {
               </Accordion>
             ))}
           </Stack>
-          <Button mt="xl">SAVE</Button>
         </Tabs.Panel>
 
         {/* <Tabs.Panel value="details">Details</Tabs.Panel> */}

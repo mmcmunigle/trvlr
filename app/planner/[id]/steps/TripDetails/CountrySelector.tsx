@@ -16,7 +16,7 @@ const CountrySelector = () => {
 
   const onCountrySelect = async (country: string | null) => {
     if (!country) return;
-    updateTrip({ country: country! });
+    updateTrip(trip.id, { country: country! });
 
     // Start gathering all city options now to be used in future steps
     if (country) {
