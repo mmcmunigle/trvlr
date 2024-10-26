@@ -17,8 +17,15 @@ const useActivityManager = (destinationId: number) => {
     setLoading(true);
     setError(null);
 
+    // Ensure that activity is not empty and does not already exist in trip plans
+    if (!activity.title || destination.activities.map((a) => a.title).includes(activity.title!))
+      return;
+
+    const rank = Math.max(...destination.activities.map((a) => a.rank));
+    const detailedActivty: Partial<Activity> = { ...activity, rank: rank };
+
     try {
-      const newActivity = await dbService.addActivity(activity);
+      const newActivity = await dbService.addActivity(detailedActivty);
       const updatedActivities = [...destination.activities, newActivity];
       updateDestination({ ...destination, activities: updatedActivities });
     } catch (err) {

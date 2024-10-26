@@ -28,9 +28,12 @@ const useDestinationStore = create<DestinationStore>((set) => ({
 
   updateDestination: (destination: DestinationWithDetails) =>
     set((store) => {
-      const index = store.destinations.findIndex((d) => d.id === destination.id);
-      store.destinations[index] = destination;
-      return { destinations: Array.from(store.destinations) };
+      const index = store.destinationDetails.findIndex((d) => d.id === destination.id);
+      store.destinationDetails[index] = destination;
+      return {
+        destinations: store.destinations,
+        destinationDetails: Array.from(store.destinationDetails),
+      };
     }),
 
   setDestinations: (destinations: DestinationWithDetails[]) =>

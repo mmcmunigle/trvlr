@@ -14,6 +14,11 @@ const DestinationsStep = () => {
   const cityOptions = useCityOptionStore((store) => store.cities);
   const { handleAddDestination } = useDestinationManager();
 
+  const onAddDestination = () => {
+    handleAddDestination({ tripId, name: autoDestination });
+    setAutoDestination('');
+  };
+
   return (
     <Stack justify="space-between" gap="xl" w="100%">
       <Box ta="center">
@@ -25,11 +30,13 @@ const DestinationsStep = () => {
             limit={8}
             data={cityOptions}
             onChange={setAutoDestination}
+            value={autoDestination}
           />
           <Button
+            disabled={!autoDestination}
             variant="light"
             rightSection={<RiMapPinAddFill size="19px" />}
-            onClick={() => handleAddDestination({ tripId, name: autoDestination })}
+            onClick={onAddDestination}
           >
             Add to Itinerary
           </Button>

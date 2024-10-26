@@ -3,6 +3,13 @@ import { Destination } from '@prisma/client';
 import * as dbService from '../services/destinationService';
 import useDestinationStore from '../state-management/destination-store';
 
+enum DESTINATION_COLORS {
+  '#264653',
+  '#2a9d8f',
+  '#e76f51',
+  '#e2ab3d',
+}
+
 const useDestinationManager = () => {
   const { destinations, addDestination, removeDestination, updateDestination } =
     useDestinationStore();
@@ -13,10 +20,16 @@ const useDestinationManager = () => {
     setLoading(true);
     setError(null);
 
+    // Ensure that destination is not empty and does not already exist in trip plans
+    if (!destination.name || destinations.map((d) => d.name).includes(destination.name!)) return;
+
+    const stopNumber = destinations.length + 1;
+
     const detailedDestination: Partial<Destination> = {
       ...destination,
-      stopNumber: destinations.length + 1,
+      stopNumber: stopNumber,
       days: 2,
+      color: DESTINATION_COLORS[stopNumber % Object.keys(DESTINATION_COLORS).length],
     };
 
     try {
