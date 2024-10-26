@@ -18,7 +18,7 @@ export async function PATCH(request: NextRequest, { params }: Props) {
   //     return NextResponse.json(validation.error.format(), { status: 400 });
   //   }
 
-  const { title, type, description, start, end, allDay, onCalendar, rank } = body;
+  const { title, description, start, end, allDay, onCalendar, rank } = body;
 
   const activity = await prisma.activity.findUnique({
     where: { id: parseInt(params.id) },
@@ -32,8 +32,9 @@ export async function PATCH(request: NextRequest, { params }: Props) {
     where: { id: activity.id },
     data: {
       title: title,
-      start: new Date(start),
-      end: new Date(end),
+      destinationId: description,
+      start: start ? new Date(start) : null,
+      end: end ? new Date(end) : null,
       allDay: allDay,
       onCalendar: onCalendar,
       rank: rank,

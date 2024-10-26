@@ -18,7 +18,12 @@ const EventCard = ({ event, type }: Props) => {
 
   const onToggle = async (checked: boolean, id: number, type: EventTypes) => {
     console.log(`/api/${type}/${id}`, checked);
-    await axios.patch(`/api/${type}/${id}`, { onCalendar: checked });
+
+    await axios.patch(`/api/${type}/${id}`, {
+      onCalendar: checked,
+      start: event.start || new Date(),
+      end: event.end || new Date(),
+    });
 
     // Probably a better way to handle this?
     router.refresh();

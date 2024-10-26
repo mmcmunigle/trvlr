@@ -1,24 +1,25 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
-import Map, { LngLatBoundsLike, MapRef, useMap } from 'react-map-gl';
+import { useEffect, useRef, useState } from 'react';
+import Map, { LngLatBoundsLike, MapRef } from 'react-map-gl';
 import boundingBoxes from '@/app/data/bounding-boxes.json';
 import useTripStore from '@/app/state-management/trip-store';
+import { CountryName } from '@/app/types/CountryName';
 
 const InteractiveMap = () => {
-  const country = useTripStore((store) => store.country);
+  const { country } = useTripStore((store) => store.trip);
   const mapRef = useRef<MapRef>(null);
+  const [mapLoaded, setMapLoaded] = useState(false);
 
   useEffect(() => {
-    if (!country || !mapRef) return;
-
-    const coords = boundingBoxes[country];
+    if (!country) return;
+    const coords = boundingBoxes[country as CountryName];
     mapRef.current?.fitBounds(coords as LngLatBoundsLike);
-  }, [country, mapRef]);
+  }, [country, mapLoaded]);
 
   return (
     <Map
-      ref={mapRef} // @ts-ignore
+      ref={mapRef}
       id="demo"
       mapboxAccessToken="pk.eyJ1IjoiZ29vYmVyMzIxIiwiYSI6ImNseGdkYWRqbjB1b2EybHEza2x0eHBjZzcifQ.ZAHxKBc46TgDstcZ0Lw9GQ"
       initialViewState={{
@@ -28,6 +29,7 @@ const InteractiveMap = () => {
       }}
       style={{ width: '100%', minHeight: '50%', zIndex: 0 }}
       mapStyle="mapbox://styles/mapbox/light-v9"
+      onLoad={() => setMapLoaded(true)}
     ></Map>
   );
 };

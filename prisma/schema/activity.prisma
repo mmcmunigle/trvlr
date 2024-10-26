@@ -5,7 +5,7 @@ model Activity {
     start         DateTime?
     end           DateTime?
     allDay        Boolean     @default(false)
-    onCalendar    Boolean     @default(true)
+    onCalendar    Boolean     @default(false)
     rank          Int         @default(1)
     createdAt     DateTime    @default(now())
     updatedAt     DateTime    @updatedAt
