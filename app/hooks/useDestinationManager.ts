@@ -4,7 +4,7 @@ import * as dbService from '../services/destinationService';
 import useDestinationStore from '../state-management/destination-store';
 
 enum DESTINATION_COLORS {
-  '#264653',
+  '#264653' = 1,
   '#2a9d8f',
   '#e76f51',
   '#e2ab3d',

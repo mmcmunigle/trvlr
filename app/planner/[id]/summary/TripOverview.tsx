@@ -9,7 +9,7 @@ import ActivityList from './ActivityList';
 
 const TripOverview = () => {
   const { country } = useTripStore((store) => store.trip);
-  const destinations = useDestinationStore((store) => store.destinations);
+  const destinations = useDestinationStore((store) => store.destinationDetails);
 
   return (
     <Box mih="50%">
