@@ -23,7 +23,7 @@ const CityOptionCarousel = () => {
   const { country, id: tripId } = useTripStore((store) => store.trip);
   const [cities, setCities] = useState<CityWithPhotos[]>([]);
   const [loading, setLoading] = useState(true);
-  const { handleAddDestination } = useDestinationManager();
+  const { destinations, handleAddDestination } = useDestinationManager();
 
   useEffect(() => {
     const getCitySuggestions = async () => {
@@ -39,6 +39,11 @@ const CityOptionCarousel = () => {
     setCities(cities.filter((city) => city.name !== name));
   };
 
+  const getFilteredCities = () => {
+    const destinationNames: string[] = destinations.map((d) => d.name);
+    return cities.filter((c) => !destinationNames.includes(c.name));
+  };
+
   return (
     <Carousel
       controlSize={40}
@@ -50,7 +55,7 @@ const CityOptionCarousel = () => {
     >
       {loading && <CarouselSkeleton />}
       {!loading &&
-        cities!.map((city, index) => (
+        getFilteredCities().map((city, index) => (
           <Carousel.Slide key={index}>
             <Card shadow="sm" h="405px" radius="lg" p={0} mt={30}>
               <Stack h="100%" gap="sm">

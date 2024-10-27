@@ -3,6 +3,7 @@ import { Select } from '@mantine/core';
 import boundingBoxes from '@/app/data/bounding-boxes.json';
 import useCitiesLookup from '@/app/hooks/useCitiesLookup';
 import useTripManager from '@/app/hooks/useTripManager';
+import { getCityOptions } from '@/app/services/cityService';
 
 const CountrySelector = () => {
   const [searchValue, setSearchValue] = useState('');
@@ -14,8 +15,9 @@ const CountrySelector = () => {
     if (!country) return;
     updateTrip(trip.id, { country: country! });
 
-    // Start gathering all city options now to be used in future steps
+    // Start gathering all city data now to be used in future steps
     lookupCities(country);
+    getCityOptions(country);
   };
 
   return (
