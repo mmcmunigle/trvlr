@@ -7,18 +7,8 @@ export interface AcivityGtpResponse {
   location: string;
 }
 
-export const getActivityRecommendations = async (city: string) => {
-  // return process.env.TRIP_ADVISOR_API_KEY;
-  const suggestedActivities = await generateActivities(city);
-
-  // Wait for all activity lookups to complete before returning
-  // const activtyOptions = await Promise.all(
-  //   suggestedActivities.map(async (activity) => {
-  //     let activityData =
-  //       (await getActivityData(activity.title)) || (await searchGooglePlaces(activity, city));
-  //     return activityData || null;
-  //   })
-  // );
+export const getActivityRecommendations = (city: string) => {
+  const suggestedActivities = generateActivities(city);
 
   return suggestedActivities;
 };

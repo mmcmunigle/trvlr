@@ -30,7 +30,7 @@ const TripInputPanel = () => {
         <Box w="95%" h="calc(100% - 7rem)">
           <Center h="100%">
             <MapsLibraryProvider>
-              <APIProvider apiKey="AIzaSyBMUjX4kLhW6yk4jWga99Zqg9CeAbuRmzo">
+              <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_PLACES_API_KEY || ''}>
                 <StepDetailsContainer />
               </APIProvider>
             </MapsLibraryProvider>

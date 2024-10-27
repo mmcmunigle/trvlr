@@ -13,6 +13,7 @@ const InteractiveMap = () => {
 
   useEffect(() => {
     if (!country) return;
+
     const coords = boundingBoxes[country as CountryName];
     mapRef.current?.fitBounds(coords as LngLatBoundsLike);
   }, [country, mapLoaded]);
@@ -21,7 +22,7 @@ const InteractiveMap = () => {
     <Map
       ref={mapRef}
       id="demo"
-      mapboxAccessToken="pk.eyJ1IjoiZ29vYmVyMzIxIiwiYSI6ImNseGdkYWRqbjB1b2EybHEza2x0eHBjZzcifQ.ZAHxKBc46TgDstcZ0Lw9GQ"
+      mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}
       initialViewState={{
         zoom: 2,
         latitude: 33.4,

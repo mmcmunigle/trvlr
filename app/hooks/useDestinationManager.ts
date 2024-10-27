@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Destination } from '@prisma/client';
+import { getActivityRecommendations } from '../services/activityRecService';
 import * as dbService from '../services/destinationService';
 import useDestinationStore from '../state-management/destination-store';
 
@@ -35,6 +36,10 @@ const useDestinationManager = () => {
     try {
       const newDestination = await dbService.addDestination(detailedDestination);
       addDestination(newDestination);
+
+      // Start the activity recommendations as soon as the destination is selected
+      // - this will cache the results on the backend
+      getActivityRecommendations(destination.name);
     } catch (err) {
       setError('Failed to add destination');
     } finally {

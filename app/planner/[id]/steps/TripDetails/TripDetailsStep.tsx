@@ -2,11 +2,11 @@
 
 import { Stack } from '@mantine/core';
 import { DatePickerInput } from '@mantine/dates';
-import useTripUpdater from '@/app/hooks/useTripUpdater';
+import useTripManager from '@/app/hooks/useTripManager';
 import CountrySelector from './CountrySelector';
 
 const TripDetailsStep = () => {
-  const { trip, updateTrip, loading, error } = useTripUpdater();
+  const { trip, updateTrip, loading, error } = useTripManager();
 
   return (
     <Stack w="400px" gap="xl">

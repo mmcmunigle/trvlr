@@ -23,17 +23,15 @@ const ActivitySelectionArea = ({ destination }: Props) => {
       const resp = await getActivityRecommendations(destination.name);
       setPlaces(resp);
     };
-    console.log(process.env.TRIP_ADVISOR_API_KEY);
+
     getActivities();
   }, [destination]);
 
   return (
     <Box h="100%" style={{ overflowY: 'auto', alignContent: 'center' }}>
-      {/* <Center h="100%"> */}{' '}
       <SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }} ta="center">
         {places.slice(0, 9).map((place) => (
           <Card key={place.title} shadow="sm" radius="lg" p="sm">
-            {/* <Image src={place.photos?.length ? place.photos[0].link : null} mih="200px" /> */}
             <Box>
               <Group justify="space-between" px="xs" gap={0}>
                 <Tooltip label="Interested">
@@ -76,11 +74,8 @@ const ActivitySelectionArea = ({ destination }: Props) => {
               </Text>
             </Box>
           </Card>
-
-          // <Card key={activity.title}>{activity.title}</Card>;
         ))}
       </SimpleGrid>
-      {/* </Center> */}
     </Box>
   );
 };

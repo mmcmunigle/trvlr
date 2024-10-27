@@ -3,7 +3,7 @@ import { Trip } from '@prisma/client';
 import * as dbService from '../services/tripService';
 import useTripStore from '../state-management/trip-store';
 
-const useTripUpdater = () => {
+const useTripManager = () => {
   const { trip, setTrip } = useTripStore();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -45,4 +45,4 @@ const useTripUpdater = () => {
   };
 };
 
-export default useTripUpdater;
+export default useTripManager;

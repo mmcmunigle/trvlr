@@ -1,6 +1,5 @@
 import { useRouter } from 'next/navigation';
 import { EventInput, formatDate } from '@fullcalendar/core';
-import axios from 'axios';
 import { Accordion, Box, DefaultMantineColor, Stack, Text, Title } from '@mantine/core';
 import { TripWithDestinations } from '@/app/types/TripWithDestinations';
 import EventList from './EventList';
